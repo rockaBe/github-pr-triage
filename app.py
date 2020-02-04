@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+from dotenv import load_dotenv
+load_dotenv('.env')
+
 import json
 import os
 import hashlib
@@ -9,10 +12,9 @@ from flask import Flask, request, make_response, jsonify, send_file, abort
 from flask_caching import Cache
 from flask.views import MethodView
 
-
 # MEMCACHE_URL = os.environ.get('MEMCACHE_URL', '127.0.0.1:11211').split(',')
-DEBUG = os.environ.get('DEBUG', False) in ('true', '1', 'y', 'yes')
-GITHUB_OAUTH_TOKEN = os.environ.get('GITHUB_OAUTH_TOKEN')
+DEBUG = os.getenv('DEBUG', False) in ('true', '1', 'y', 'yes')
+GITHUB_OAUTH_TOKEN = os.getenv('GITHUB_OAUTH_TOKEN')
 
 APP_LOCATION = 'app'
 if os.path.isdir('./dist') and os.listdir('./dist'):
@@ -212,6 +214,6 @@ app.add_url_rule(
 
 if __name__ == '__main__':
     app.debug = DEBUG
-    port = int(os.environ.get('PORT', 5000))
-    host = os.environ.get('HOST', '0.0.0.0')
+    port = int(os.getenv('PORT', 5000))
+    host = os.getenv('HOST', '0.0.0.0')
     app.run(host=host, port=port)
